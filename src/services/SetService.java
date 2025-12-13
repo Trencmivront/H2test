@@ -4,22 +4,17 @@ import java.sql.*;
 
 public class SetService {
 	
-	String url, user, password;
+	Connection con;
 	
-	public SetService(String url, String user, String password){
-		this.url = url;
-		this.user = user;
-		this.password = password;
+	public SetService(Connection con){
+		this.con = con;
 	}
 
 	public void updateStudent(int id, int newAge) {
 
         String sql = "UPDATE students SET age = ? WHERE id = ?";
 
-        try (
-            Connection conn = DriverManager.getConnection(url, user, password);
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, newAge); // ilk ? → yeni yaş
             pstmt.setInt(2, id);     // ikinci ? → güncellenecek id
 

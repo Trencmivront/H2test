@@ -11,20 +11,17 @@ import data.Student;
 
 public class GetService {
 	
-	String url, user, password;
+	private final Connection con;
 	
-	public GetService(String url, String user, String password){
-		this.url = url;
-		this.user = user;
-		this.password = password;
+	public GetService(Connection con){
+		this.con = con;
 	}
 	
 	public Student getStudent(int id) {
 		
 		String sql = "SELECT * FROM students WHERE id=?";
 		
-		try (Connection con = DriverManager.getConnection(url, user, password);
-			PreparedStatement pst = con.prepareStatement(sql)){
+		try (PreparedStatement pst = con.prepareStatement(sql)){
 			pst.setInt(1, id);
 			try (ResultSet rs = pst.executeQuery()){
 				if(rs.next()) {

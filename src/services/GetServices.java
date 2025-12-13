@@ -11,20 +11,17 @@ import java.util.List;
 import data.Student;
 public class GetServices {
 	
-	String url, user, password;
+	Connection con;
 	
-	public GetServices(String url, String user, String password){
-		this.url = url;
-		this.user = user;
-		this.password = password;
+	public GetServices(Connection con){
+		this.con = con;
 	}
 	
 	public List<Student> getStudents() {
 
         String sql = "SELECT id, name, age FROM students";
         
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-            Statement st = conn.createStatement();
+        try (Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql)){
         	
         	List<Student> ls = new ArrayList<>();

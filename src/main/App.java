@@ -4,6 +4,7 @@ import java.sql.*;
 
 import javax.swing.SwingUtilities;
 
+import gui.LogInWindow;
 import gui.MainWindow;
 import services.DeleteService;
 import services.GetService;
@@ -14,18 +15,29 @@ import data.UserData;
 
 public class App{
 	
-	static String url = UserData.url;
-	static String user = UserData.user;
-	static String password = UserData.password;
-	
-	private static DeleteService deleteService = new DeleteService(url, user, password);
-	private static GetService getService = new GetService(url, user, password);
-	private static GetServices getServices = new GetServices(url, user, password);
-	private static PutService putService = new PutService(url, user, password);
-	private static SetService setService = new SetService(url, user, password);
-	
+	public static boolean isLogged = false;
 	
 	public static void main(String[] args) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					
+					new LogInWindow().setVisible(true);
+					
+					if(!isLogged) {
+						return;
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+					return;
+				}
+				
+			}
+		});
 		
 		try (Connection con = DriverManager.getConnection(url, user, password)){
 			
@@ -38,7 +50,7 @@ public class App{
 				public void run() {
 					try {
 						
-						new MainWindow(deleteService, getService, getServices, putService, setService).setVisible(true);
+						new MainWindow(con).setVisible(true);
 						
 					}catch(Exception e) {
 						e.printStackTrace();

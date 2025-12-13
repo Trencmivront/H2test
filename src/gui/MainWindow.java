@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
 import java.util.List;
 
 import javax.swing.*;
@@ -22,19 +23,19 @@ import services.SetService;
 
 public class MainWindow extends JFrame{
 	
-	private static DeleteService deleteService;
-	private static GetService getService;
-	private static GetServices getServices;
-	private static PutService putService;
-	private static SetService setService;
+	private final DeleteService deleteService;
+	private final GetService getService;
+	private final GetServices getServices;
+	private final PutService putService;
+	private final SetService setService;
 	
-	public MainWindow(DeleteService del, GetService get, GetServices gets, PutService put, SetService set) {
-		
-		this.deleteService = del;
-		this.getService = get;
-		this.getServices = gets;
-		this.putService = put;
-		this.setService = set;
+	public MainWindow(Connection conn) {
+
+	    this.deleteService = new DeleteService(conn);
+	    this.getService    = new GetService(conn);
+	    this.getServices   = new GetServices(conn);
+	    this.putService    = new PutService(conn);
+	    this.setService    = new SetService(conn);
 		
 		setSize(500, 400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
