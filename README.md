@@ -1,2 +1,2 @@
 # H2test
-Application using Swing library and H2 database.
+I made it rigth after learning H2 database integration with Eclipse in class.
