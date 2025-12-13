@@ -15,8 +15,6 @@ import data.UserData;
 
 public class App{
 	
-	public static boolean isLogged = false;
-	
 	public static void main(String[] args) {
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -27,10 +25,6 @@ public class App{
 					
 					new LogInWindow().setVisible(true);
 					
-					if(!isLogged) {
-						return;
-					}
-					
 				}catch(Exception e) {
 					e.printStackTrace();
 					return;
@@ -38,34 +32,6 @@ public class App{
 				
 			}
 		});
-		
-		try (Connection con = DriverManager.getConnection(url, user, password)){
-			
-			Class.forName("org.h2.Driver");
-			System.out.println("Connection Established");					
-			
-			SwingUtilities.invokeLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						
-						new MainWindow(con).setVisible(true);
-						
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-					
-				}
-			});
-			
-			
-		}catch(SQLException s) {
-			s.printStackTrace();
-		}catch(ClassNotFoundException c) {
-			System.out.println("Class is not found");
-			c.printStackTrace();
-		}
 		
 	}
 }
