@@ -24,8 +24,9 @@ public class SetService {
             pstmt.setInt(2, id);     // ikinci ? → güncellenecek id
 
             int rows = pstmt.executeUpdate();
-            System.out.println(rows + " kayıt güncellendi.");
+            System.out.println(rows + " data updated.");
         } catch (SQLException e) {
+        	System.out.println("Set Service accoured an error.");
             e.printStackTrace();
         }
     }

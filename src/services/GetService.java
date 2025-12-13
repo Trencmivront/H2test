@@ -38,6 +38,7 @@ public class GetService {
 			}
 			
 		}catch(SQLException s) {
+			System.out.println("Get Service accoured an error.");
 			s.printStackTrace();
 			return null;
 		}

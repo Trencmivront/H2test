@@ -24,8 +24,9 @@ public class DeleteService {
             pstmt.setInt(1, id);
 
             int rows = pstmt.executeUpdate();
-            System.out.println(rows + " kayıt silindi.");
+            System.out.println(rows + " data deleted.");
         } catch (SQLException e) {
+        	System.out.println("Delete Service accoured an error.");
             e.printStackTrace();
         }
         

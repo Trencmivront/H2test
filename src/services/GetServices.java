@@ -35,6 +35,7 @@ public class GetServices {
         	return ls;
 
         }catch (SQLException e) {
+        	System.out.println("Get Services accoured an error.");
             e.printStackTrace();
             return null;
         }

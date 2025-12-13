@@ -10,12 +10,13 @@ import services.GetService;
 import services.PutService;
 import services.SetService;
 import services.GetServices;
+import data.UserData;
 
-public class App {
+public class App{
 	
-	private static String url = "jdbc:h2:~/test";
- 	private static String user = "Yilmaz";
-	private static String password = "1234";
+	static String url = UserData.url;
+	static String user = UserData.user;
+	static String password = UserData.password;
 	
 	private static DeleteService deleteService = new DeleteService(url, user, password);
 	private static GetService getService = new GetService(url, user, password);
@@ -38,6 +39,7 @@ public class App {
 					try {
 						
 						new MainWindow(deleteService, getService, getServices, putService, setService).setVisible(true);
+						
 					}catch(Exception e) {
 						e.printStackTrace();
 					}

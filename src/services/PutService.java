@@ -26,7 +26,7 @@ public class PutService {
             int rows =  pstmt.executeUpdate();
             System.out.println(rows + " data added.");
         } catch (SQLException e) {
-        	System.out.println("Put service accoured an error.");
+        	System.out.println("Put Service accoured an error.");
             e.printStackTrace();
         }
 
