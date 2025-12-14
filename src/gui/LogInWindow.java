@@ -20,6 +20,8 @@ public class LogInWindow extends JFrame{
 	
 	JTextField link = linkTextField(), user = userTextField(), password = passwordTextField();
 	
+	Boolean rememberLink = false, rememberUser = false;
+	
 	public LogInWindow() {
 		
 		setSize(400,250);
@@ -40,20 +42,23 @@ public class LogInWindow extends JFrame{
 		JPanel pnl = new JPanel();
 		
 		pnl.setSize(100, 100);
-		pnl.setLayout(new GridBagLayout());
+		pnl.setLayout(new GridLayout(4, 3));
 		
 		
 		pnl.setLocation(getLocation());
 		
-		pnl.add(new JLabel("URL"));
-		pnl.add(link);
+		pnl.add(new JLabel("URL", JLabel.CENTER), 0);
+		pnl.add(link, 1);
+		pnl.add(rememberLink(), 2);
 		
-		pnl.add(new JLabel("User Name"));
-		pnl.add(user);
+		pnl.add(new JLabel("User Name", JLabel.CENTER), 3);
+		pnl.add(user, 4);
+		pnl.add(rememberUser(), 5);
 		
-		pnl.add(new JLabel("Password"));
-		pnl.add(password);
+		pnl.add(new JLabel("Password", JLabel.CENTER), 6);
+		pnl.add(password, 7);
 		
+		pnl.add(new JLabel());
 		pnl.add(new JLabel());
 		pnl.add(logInButton());
 		
@@ -88,9 +93,32 @@ public class LogInWindow extends JFrame{
 		return password;
 	}
 	
+	public JRadioButton rememberLink() {
+		
+		JRadioButton link = new JRadioButton("Remember");
+		
+		link.addActionListener(e -> {rememberLink = rememberLink == false ? true:false;
+		System.out.println(rememberLink);
+		});
+		
+		return link;
+	}
+	
+	public JRadioButton rememberUser() {
+		
+		JRadioButton user = new JRadioButton("Remember");
+		
+		user.addActionListener(e -> {rememberUser = rememberUser == false ? true:false;
+		System.out.println(rememberUser);
+		});
+		
+		return user;
+		
+	}
+	
 	public JButton logInButton() {
 		
-		JButton button = new JButton();
+		JButton button = new JButton("Enter");
 		
 		button.setBounds(0,0,50,20);
 		

@@ -110,10 +110,10 @@ public class MainWindow extends JFrame{
 		
 		JMenu menu = new JMenu("Menu");
 		
-		JMenuItem add = new JMenuItem("Add Student");
-		add.addActionListener(e -> new AddingStudentWindow(this, putService));
+		JMenuItem addStudent = new JMenuItem("Add Student");
+		addStudent.addActionListener(e -> new AddingStudentWindow(this, putService));
 		
-		menu.add(add);
+		menu.add(addStudent);
 		
 		return menu;
 	}
