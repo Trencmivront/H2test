@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,15 +40,21 @@ public class LogInWindow extends JFrame{
 		JPanel pnl = new JPanel();
 		
 		pnl.setSize(100, 100);
-		pnl.setLayout(new GridLayout(5, 1));
+		pnl.setLayout(new GridBagLayout());
 		
 		
 		pnl.setLocation(getLocation());
-		pnl.add(new JLabel("URL"));
 		
+		pnl.add(new JLabel("URL"));
 		pnl.add(link);
+		
+		pnl.add(new JLabel("User Name"));
 		pnl.add(user);
+		
+		pnl.add(new JLabel("Password"));
 		pnl.add(password);
+		
+		pnl.add(new JLabel());
 		pnl.add(logInButton());
 		
 		return pnl;
@@ -92,8 +99,9 @@ public class LogInWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				try (Connection con = DriverManager.getConnection(link.getText(), user.getText(), password.getText())){
+				try {
 					
+					Connection con = DriverManager.getConnection(link.getText(), user.getText(), password.getText());
 					Class.forName("org.h2.Driver");
 					System.out.println("Connection Established");					
 					

@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.*;
@@ -41,6 +44,17 @@ public class MainWindow extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
+		
+		addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		        try {
+		            conn.close();
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
 		
 		addComponents();
 	}
@@ -97,7 +111,7 @@ public class MainWindow extends JFrame{
 		JMenu menu = new JMenu("Menu");
 		
 		JMenuItem add = new JMenuItem("Add Student");
-		add.addActionListener(e -> new AddingStudentWindow(putService));
+		add.addActionListener(e -> new AddingStudentWindow(this, putService));
 		
 		menu.add(add);
 		
