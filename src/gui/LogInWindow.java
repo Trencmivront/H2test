@@ -1,26 +1,25 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+import data.ConfigRead;
+import data.ConfigSave;
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import data.UserData;
-import main.App;
 
 public class LogInWindow extends JFrame{
 	
 	JTextField link = linkTextField(), user = userTextField(), password = passwordTextField();
 	
-	Boolean rememberLink = false, rememberUser = false;
+	Boolean remember = false;
+	
+	UserData userData;
 	
 	public LogInWindow() {
 		
@@ -30,7 +29,32 @@ public class LogInWindow extends JFrame{
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 		
+		loadData();
+		
 		addComponents();
+	}
+	
+	public void loadData() {
+		
+		try {
+			userData = ConfigRead.load();
+		}catch(IOException i) {
+			i.printStackTrace();
+		}
+		
+		if(userData != null) {
+			
+			remember = userData.isRemember;
+			
+			if(remember) {
+				user.setText(userData.user);
+				link.setText(userData.url);
+			}
+		}
+		else {
+			userData = new UserData();
+		}
+		
 	}
 	
 	public void addComponents() {
@@ -53,7 +77,7 @@ public class LogInWindow extends JFrame{
 		
 		pnl.add(new JLabel("User Name", JLabel.CENTER), 3);
 		pnl.add(user, 4);
-		pnl.add(rememberUser(), 5);
+		pnl.add(new JPanel(), 5);
 		
 		pnl.add(new JLabel("Password", JLabel.CENTER), 6);
 		pnl.add(password, 7);
@@ -94,26 +118,15 @@ public class LogInWindow extends JFrame{
 	}
 	
 	public JRadioButton rememberLink() {
+		JRadioButton save = new JRadioButton("Keep URL-User");
 		
-		JRadioButton link = new JRadioButton("Remember");
+		save.setSelected(remember);
 		
-		link.addActionListener(e -> {rememberLink = rememberLink == false ? true:false;
-		System.out.println(rememberLink);
+		save.addActionListener(e -> {remember = remember == false ? true:false;
+		System.out.println(remember);
 		});
 		
-		return link;
-	}
-	
-	public JRadioButton rememberUser() {
-		
-		JRadioButton user = new JRadioButton("Remember");
-		
-		user.addActionListener(e -> {rememberUser = rememberUser == false ? true:false;
-		System.out.println(rememberUser);
-		});
-		
-		return user;
-		
+		return save;
 	}
 	
 	public JButton logInButton() {
@@ -139,6 +152,19 @@ public class LogInWindow extends JFrame{
 						public void run() {
 							try {
 								
+								if(!remember) {									
+									userData.url = "";
+									userData.user = "";
+									userData.isRemember = false;
+								}
+								else {
+									userData.url = link.getText();
+									userData.user = user.getText();
+									userData.isRemember = true;
+								}
+								
+								ConfigSave.save(userData);
+								
 								new MainWindow(con).setVisible(true);
 								dispose();
 							}catch(Exception e) {
@@ -161,5 +187,6 @@ public class LogInWindow extends JFrame{
 	
 		return button;
 	}
+
 
 }

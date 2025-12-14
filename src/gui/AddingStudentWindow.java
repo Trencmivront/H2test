@@ -3,7 +3,6 @@ package gui;
 import java.awt.BorderLayout;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import services.PutService;
 
 public class AddingStudentWindow extends JDialog{
