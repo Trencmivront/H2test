@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import data.ConfigRead;
 import data.ConfigSave;
 import javax.swing.*;
@@ -15,7 +16,8 @@ import data.UserData;
 
 public class LogInWindow extends JFrame{
 	
-	JTextField link = linkTextField(), user = userTextField(), password = passwordTextField();
+	JTextField link = linkTextField(), user = userTextField();
+	JPasswordField password = passwordTextField();
 	
 	Boolean remember = false;
 	
@@ -108,10 +110,11 @@ public class LogInWindow extends JFrame{
 		return user;
 	}
 	
-	public JTextField passwordTextField() {
-		JTextField password = new JTextField();
-		password.setToolTipText("password...");
+	public JPasswordField passwordTextField() {
 		
+		JPasswordField password = new JPasswordField();
+		password.setToolTipText("password");
+		password.setEchoChar('•');
 		password.setBounds(0,0,50,20);
 		
 		return password;
@@ -123,7 +126,6 @@ public class LogInWindow extends JFrame{
 		save.setSelected(remember);
 		
 		save.addActionListener(e -> {remember = remember == false ? true:false;
-		System.out.println(remember);
 		});
 		
 		return save;
@@ -141,8 +143,9 @@ public class LogInWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					
-					Connection con = DriverManager.getConnection(link.getText(), user.getText(), password.getText());
+					String pass = new String(password.getPassword());
+					Connection con = DriverManager.getConnection(link.getText(), user.getText(), pass);
+					pass = "";
 					Class.forName("org.h2.Driver");
 					System.out.println("Connection Established");					
 					

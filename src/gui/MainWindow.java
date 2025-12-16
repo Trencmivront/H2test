@@ -62,11 +62,10 @@ public class MainWindow extends JFrame{
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		
-		toolBar.add(createMenu());
+		JMenuBar menuBar = createMenuBar();
 		
-		JMenu settings = new JMenu("Settings");
-		toolBar.add(settings);
-		
+		toolBar.add(menuBar);
+
 		add(toolBar, BorderLayout.NORTH);
 	}
 	
@@ -98,16 +97,22 @@ public class MainWindow extends JFrame{
 	    };
 	}
 	
-	private JMenu createMenu() {
+	private JMenuBar createMenuBar() {
 		
-		JMenu menu = new JMenu("Menu");
+		JMenuBar menuBar = new JMenuBar();
 		
-		JMenuItem addStudent = new JMenuItem("Add Student");
-		addStudent.addActionListener(e -> new AddingStudentWindow(this, putService));
+		menuBar.add(help());
 		
-		menu.add(addStudent);
+		return menuBar;
+	}
+	
+	private  JMenu help() {
 		
-		return menu;
+		JMenu help = new JMenu("Help");
+		
+		help.add(new JMenuItem("Go find your own help."));
+		
+		return help;
 	}
 
 
