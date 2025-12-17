@@ -1,6 +1,7 @@
 package gui;
 
-import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JDialog;
 import services.PutService;
@@ -13,17 +14,19 @@ public class AddingStudentWindow extends JDialog{
 		this.putService = put;
 		
 		setSize(100, 100);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		setLayout(new GridBagLayout());
+		
 		setLocationRelativeTo(main);
 		setModal(true);
-		
-		
 		
 		addComponents();
 	}
 	
 	public void addComponents() {
+		
+		Object c = new GridBagConstraints();
 		
 		
 		

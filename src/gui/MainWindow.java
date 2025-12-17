@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -16,7 +18,7 @@ import services.GetServices;
 import services.PutService;
 import services.SetService;
 
-public class MainWindow extends JFrame{
+public final class MainWindow extends JFrame{
 	
 	private final DeleteService deleteService;
 	private final GetService getService;
@@ -88,7 +90,7 @@ public class MainWindow extends JFrame{
 	        data[i][1] = s.name();
 	        data[i][2] = s.age();
 	    }
-
+	    
 	    return new JTable(data, columns) {
 	    	@Override
 	    	public boolean isCellEditable(int row, int column) {
@@ -108,11 +110,24 @@ public class MainWindow extends JFrame{
 	
 	private  JMenu help() {
 		
-		JMenu help = new JMenu("Help");
+		JMenu options = new JMenu("Options");
 		
-		help.add(new JMenuItem("Go find your own help."));
+		JMenuItem add = new JMenuItem("Add");
+		add.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent a) {
+				try {
+					new AddingStudentWindow(MainWindow.this, putService).setVisible(true);;
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		options.add(add);
 		
-		return help;
+		return options;
 	}
 
 
