@@ -65,7 +65,7 @@ public final class MainWindow extends JFrame{
 		toolBar.setFloatable(false);
 		
 		JMenuBar menuBar = createMenuBar();
-		
+
 		toolBar.add(menuBar);
 
 		add(toolBar, BorderLayout.NORTH);
@@ -129,6 +129,4 @@ public final class MainWindow extends JFrame{
 		
 		return options;
 	}
-
-
 }

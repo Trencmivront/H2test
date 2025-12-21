@@ -1,11 +1,10 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,18 +18,19 @@ public class AddingStudentWindow extends JDialog{
 	
 	PutService putService;
 	
+	int height, width;
+	
 	JTextField name = new JTextField() 
 			, age = new JTextField();
 	
 	protected AddingStudentWindow(MainWindow main ,PutService put){
 		this.putService = put;
 		
-		setSize(200, 200);
+		setSize(200,200);
+		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		setLayout(new GridLayout(3, 3));
-		
-		setLocationRelativeTo(main);
 		setModal(true);
 		
 		addComponents();
@@ -63,7 +63,6 @@ public class AddingStudentWindow extends JDialog{
 				}
 			}
 		});
-		
 		add(but);
 	}
 
