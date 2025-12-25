@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class LogInWindow extends JFrame{
 		addComponents();
 	}
 	
-	public void loadData() {
+	private void loadData() {
 		
 		try {
 			userData = ConfigRead.load();
@@ -59,41 +58,58 @@ public class LogInWindow extends JFrame{
 		
 	}
 	
-	public void addComponents() {
-		
-		add(panel());
+	private void addComponents() {
+	    setLayout(new BorderLayout(10, 10));
+	    add(center(), BorderLayout.CENTER);
+	    add(choicePanel(), BorderLayout.EAST);
+	    add(new JLabel("Test Application", JLabel.CENTER), BorderLayout.SOUTH);
 	}
-	
-	public JPanel panel() {
-		JPanel pnl = new JPanel();
-		
-		pnl.setSize(100, 100);
-		pnl.setLayout(new GridLayout(4, 3));
-		
-		
-		pnl.setLocation(getLocation());
-		
-		pnl.add(new JLabel("URL", JLabel.CENTER), 0);
-		pnl.add(link, 1);
-		pnl.add(rememberLink(), 2);
-		
-		pnl.add(new JLabel("User Name", JLabel.CENTER), 3);
-		pnl.add(user, 4);
-		pnl.add(new JPanel(), 5);
-		
-		pnl.add(new JLabel("Password", JLabel.CENTER), 6);
-		pnl.add(password, 7);
-		
-		pnl.add(new JLabel());
-		pnl.add(new JLabel());
-		pnl.add(logInButton());
-		
-		return pnl;
+
+	private JPanel center() {
+	    JPanel panel = new JPanel();
+	    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+	    panel.add(urlPanel());
+	    panel.add(Box.createVerticalStrut(10));
+	    panel.add(userPanel());
+	    panel.add(Box.createVerticalStrut(10));
+	    panel.add(passwordPanel());
+
+	    return panel;
+	}
+
+	private JPanel urlPanel() {
+	    JPanel panel = new JPanel(new BorderLayout(5, 0));
+	    panel.add(new JLabel("URL           "), BorderLayout.WEST);
+	    panel.add(link, BorderLayout.CENTER);
+	    return panel;
+	}
+
+	private JPanel userPanel() {
+	    JPanel panel = new JPanel(new BorderLayout(5, 0));
+	    panel.add(new JLabel("User Name "), BorderLayout.WEST);
+	    panel.add(user, BorderLayout.CENTER);
+	    return panel;
+	}
+
+	private JPanel passwordPanel() {
+	    JPanel panel = new JPanel(new BorderLayout(5, 0));
+	    panel.add(new JLabel("Password  "), BorderLayout.WEST);
+	    panel.add(password, BorderLayout.CENTER);
+	    return panel;
+	}
+
+	private JPanel choicePanel() {
+	    JPanel panel = new JPanel();
+	    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+	    panel.add(rememberLink());
+	    panel.add(logInButton());
+	    return panel;
 	}
 	
 	public JTextField linkTextField() {
 		
-		JTextField link = new JTextField();
+		JTextField link = new JTextField(10);
 		link.setToolTipText("Link to the database");
 		
 		link.setBounds(0, 0, 50, 20);
@@ -102,7 +118,7 @@ public class LogInWindow extends JFrame{
 	}
 	
 	public JTextField userTextField() {
-		JTextField user = new JTextField();
+		JTextField user = new JTextField(10);
 		user.setToolTipText("User name");
 		
 		user.setBounds(0, 0, 50, 20);
@@ -112,7 +128,7 @@ public class LogInWindow extends JFrame{
 	
 	public JPasswordField passwordTextField() {
 		
-		JPasswordField password = new JPasswordField();
+		JPasswordField password = new JPasswordField(10);
 		password.setToolTipText("password");
 		password.setEchoChar('•');
 		password.setBounds(0,0,50,20);
@@ -120,8 +136,8 @@ public class LogInWindow extends JFrame{
 		return password;
 	}
 	
-	public JRadioButton rememberLink() {
-		JRadioButton save = new JRadioButton("Keep URL-User");
+	public JCheckBox rememberLink() {
+		JCheckBox save = new JCheckBox("Remember Me");
 		
 		save.setSelected(remember);
 		

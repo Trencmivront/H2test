@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -10,6 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import data.Student;
 import services.DeleteService;
@@ -18,13 +21,18 @@ import services.GetServices;
 import services.PutService;
 import services.SetService;
 
-public final class MainWindow extends JFrame{
+public final class MainWindow extends JFrame {
 	
+	// services
 	private final DeleteService deleteService;
 	private final GetService getService;
 	private final GetServices getServices;
 	private final PutService putService;
 	private final SetService setService;
+	// table needs to be initialized
+	private JTable studentTable = new JTable();
+	private JScrollPane scrollPane;
+	private JButton refresh;
 	
 	public MainWindow(Connection conn) {
 
@@ -49,36 +57,40 @@ public final class MainWindow extends JFrame{
 		        }
 		    }
 		});
-		
+		updateStudentTable(getServices.getStudents());
 		addComponents();
+		
 	}
 	
 	private void addComponents() {
-		
 		addToolBar();
 		addListOfStudents();
+		
 	}
 	
 	private void addToolBar() {
 		
-		JToolBar toolBar = new JToolBar();
+		JToolBar toolBar = new JToolBar(JToolBar.VERTICAL);
 		toolBar.setFloatable(false);
+		toolBar.setLayout(new GridLayout(1, 5));
 		
 		JMenuBar menuBar = createMenuBar();
 
 		toolBar.add(menuBar);
+		
+		toolBar.add(refresh());
 
 		add(toolBar, BorderLayout.NORTH);
 	}
 	
 	private void addListOfStudents() {
 		
-		JScrollPane scrollPane = new JScrollPane(createStudentTable(getServices.getStudents()));
+		scrollPane = new JScrollPane(studentTable);
 		
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	
-	private JTable createStudentTable(List<Student> students) {
+	private void updateStudentTable(List<Student> students) {
 
 	    String[] columns = {"ID", "Name", "Age"};
 
@@ -91,12 +103,10 @@ public final class MainWindow extends JFrame{
 	        data[i][2] = s.age();
 	    }
 	    
-	    return new JTable(data, columns) {
-	    	@Override
-	    	public boolean isCellEditable(int row, int column) {
-	    		return false;
-	    	}
-	    };
+	    // model being updated and we change the model in table
+	    TableModel model = new DefaultTableModel(data, columns);
+	    
+	    studentTable.setModel(model);
 	}
 	
 	private JMenuBar createMenuBar() {
@@ -129,4 +139,23 @@ public final class MainWindow extends JFrame{
 		
 		return options;
 	}
+	
+	private JButton refresh() {
+		
+		refresh = new JButton("<->");
+		refresh.setToolTipText("Refresh Table");
+		
+		refresh.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				updateStudentTable(getServices.getStudents());
+				
+			}
+		});
+		
+		return refresh;
+	}
+	
 }

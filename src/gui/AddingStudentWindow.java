@@ -3,9 +3,6 @@ package gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,12 +23,14 @@ public class AddingStudentWindow extends JDialog{
 	protected AddingStudentWindow(MainWindow main ,PutService put){
 		this.putService = put;
 		
-		setSize(200,200);
+		setSize(300,200);
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		setLayout(new GridLayout(3, 3));
 		setModal(true);
+		
+		setLocation(main.getLocation());
 		
 		addComponents();
 	}
@@ -42,7 +41,7 @@ public class AddingStudentWindow extends JDialog{
 		add(name);
 		add(new JPanel());
 		
-		add(new JLabel("Age"), 2);
+		add(new JLabel("Age"));
 		add(age);
 		add(new JPanel());
 		
