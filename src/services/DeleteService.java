@@ -2,6 +2,9 @@ package services;
 
 import java.sql.*;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 public class DeleteService {
 	
 	private final Connection conn;
@@ -22,7 +25,7 @@ public class DeleteService {
             int rows = pstmt.executeUpdate();
             System.out.println(rows + " data deleted.");
         } catch (SQLException e) {
-        	System.err.println("Delete Service accoured an error.");
+        	JOptionPane.showMessageDialog(new JDialog(), e.getMessage());
             e.printStackTrace();
         }
         

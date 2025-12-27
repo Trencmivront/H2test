@@ -2,6 +2,9 @@ package services;
 
 import java.sql.*;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 public class PutService {
 	
 	Connection con;
@@ -21,7 +24,7 @@ public class PutService {
             int rows =  pstmt.executeUpdate();
             System.out.println(rows + " data added.");
         } catch (SQLException e) {
-        	System.out.println("Put Service accoured an error.");
+        	JOptionPane.showMessageDialog(new JDialog(), e.getMessage());
             e.printStackTrace();
         }
 

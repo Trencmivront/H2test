@@ -7,6 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import data.Student;
 public class GetServices {
 	
@@ -31,7 +34,7 @@ public class GetServices {
         	return ls;
 
         }catch (SQLException e) {
-        	System.out.println("Get Services accoured an error.");
+        	JOptionPane.showMessageDialog(new JDialog(), e.getMessage());
             e.printStackTrace();
             return null;
         }

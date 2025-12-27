@@ -15,12 +15,11 @@ import data.UserData;
 
 public class LogInWindow extends JFrame{
 	
-	JTextField link = linkTextField(), user = userTextField();
-	JPasswordField password = passwordTextField();
+	private JTextField link = linkTextField(), user = userTextField();
+	private JPasswordField password = passwordTextField();
 	
 	Boolean remember = false;
-	
-	UserData userData;
+	private UserData userData;
 	
 	public LogInWindow() {
 		
@@ -57,7 +56,7 @@ public class LogInWindow extends JFrame{
 		}
 		
 	}
-	
+
 	private void addComponents() {
 	    setLayout(new BorderLayout(10, 10));
 	    add(center(), BorderLayout.CENTER);
@@ -182,11 +181,12 @@ public class LogInWindow extends JFrame{
 									userData.isRemember = true;
 								}
 								
-								ConfigSave.save(userData);
-								
 								new MainWindow(con).setVisible(true);
+								ConfigSave.save(userData);
 								dispose();
 							}catch(Exception e) {
+								// error if cannot open main by using con parameter
+								JOptionPane.showMessageDialog(new JDialog(), e.getMessage());
 								e.printStackTrace();
 							}
 							
@@ -195,8 +195,10 @@ public class LogInWindow extends JFrame{
 					
 					
 				}catch(SQLException s) {
+					JOptionPane.showMessageDialog(new JDialog(), s.getMessage());
 					s.printStackTrace();
 				}catch(ClassNotFoundException c) {
+					JOptionPane.showMessageDialog(new JDialog(), c.getMessage());
 					System.out.println("Class is not found");
 					c.printStackTrace();
 				}

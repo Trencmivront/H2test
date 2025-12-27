@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -13,6 +16,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import data.Student;
 import services.DeleteService;
@@ -31,10 +35,11 @@ public final class MainWindow extends JFrame {
 	private final SetService setService;
 	// table needs to be initialized
 	private JTable studentTable = new JTable();
+	private DefaultTableModel model;
 	private JScrollPane scrollPane;
 	private JButton refresh;
 	
-	public MainWindow(Connection conn) {
+	protected MainWindow(Connection conn) {
 
 	    this.deleteService = new DeleteService(conn);
 	    this.getService    = new GetService(conn);
@@ -53,6 +58,7 @@ public final class MainWindow extends JFrame {
 		        try {
 		            conn.close();
 		        } catch (SQLException ex) {
+		        	JOptionPane.showMessageDialog(new JDialog(), ex.getMessage());
 		            ex.printStackTrace();
 		        }
 		    }
@@ -64,6 +70,7 @@ public final class MainWindow extends JFrame {
 	
 	private void addComponents() {
 		addToolBar();
+		add(searchBar(), BorderLayout.NORTH);
 		addListOfStudents();
 		
 	}
@@ -104,7 +111,7 @@ public final class MainWindow extends JFrame {
 	    }
 	    
 	    // model being updated and we change the model in table
-	    TableModel model = new DefaultTableModel(data, columns);
+	    model = new DefaultTableModel(data, columns);
 	    
 	    studentTable.setModel(model);
 	}
@@ -130,6 +137,7 @@ public final class MainWindow extends JFrame {
 				try {
 					new AddingStudentWindow(MainWindow.this, putService).setVisible(true);;
 				}catch(Exception e) {
+					JOptionPane.showMessageDialog(new JDialog(), e.getMessage());
 					e.printStackTrace();
 				}
 				
@@ -156,6 +164,26 @@ public final class MainWindow extends JFrame {
 		});
 		
 		return refresh;
+	}
+	private JTextField searchBar() {
+		
+		JTextField search = new JTextField();
+		search.setToolTipText("Search");
+		
+		search.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
+				String key = search.getText();
+				
+				studentTable.setRowSorter(sorter);
+				sorter.setRowFilter(RowFilter.regexFilter(key));
+			}
+		});
+		
+		return search;
+		
 	}
 	
 }

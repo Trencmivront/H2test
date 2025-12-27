@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import data.Student;
 
 public class GetService {
@@ -33,7 +36,7 @@ public class GetService {
 			}
 			
 		}catch(SQLException s) {
-			System.out.println("Get Service accoured an error.");
+			JOptionPane.showMessageDialog(new JDialog(), s.getMessage());
 			s.printStackTrace();
 			return null;
 		}
